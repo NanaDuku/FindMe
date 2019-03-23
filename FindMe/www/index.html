@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <!--This jquery should always come first otherwise code wont work,this is because the jquery has to load before the jquery mobile. NB:line by line.-->
+        <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+        <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+       	<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css">
+		<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+		<script type="text/javascript" src="js/js.js"></script>
+		
+	    <script>
+            function Register(){
+         $(document).ready(function(){
+             console.log("Ready ");
+            $("#register-btn").click(function(){
+                var firstName = $("#fname").val();
+                var lastName = $("#lname").val();
+                
+                var phone = $("#phone").val();
+                var username = $("#uname").val();
+                var passWord = $("#pwd").val();
+               
+                 $.ajax({
+                        url:"http://localhost/findMe/registration.php",
+                        
+                        //data:{id:variable name1,id:variable name2}
+                        data:{fname:firstName,lname:lastName,phone:phone,uname:username,pwd:passWord,next:'new'},
+                        type:"post",
+                        success:function(response){
+                            console.log(response);
+                        }
+                       
+                       
+                        
+                    });
+                
+            });
+        });  
+    
+        return false ;
+            }
+        
+        function LogUser(){
+        $(document).ready(function(){
+            $("#login-btn").click(function(){
+                var username = $("#uname").val();
+                var password = $("#pwd").val();
+                
+                
+                $.ajax({
+                        url:"http://localhost/findMe/login.php",
+                        
+                        //data:{id:variable name1,id:variable name2}
+                        data:{uname:username,pwd:password,next:'new'},
+                        type:"post",
+                        success:function(response){
+                            console.log(response);
+                        }
+                        
+                        
+                    });
+            });
+        });  
+
+        return false ;
+        }
+
+    </script>
+
+		
+    <title>Blank App</title>
+    </head>
+    <body >
+    	<script type="text/javascript" src="cordova.js"></script>
+
+    <!--Login page-->    
+    <div data-role="page" id="login-page" style="background-image: url(css/image/backim.jpeg)" >
+
+	<div role="main" class="ui-content" style="margin-top:50%; ">
+		<div>
+			<center><label style="font-family: fantasy;font-size: 30px">FindMe</label></center>
+        </div><!-- /header -->
+        
+		<form  method="post" id="form1" onsubmit="return LogUser();" action="http://localhost/findMe/login.php">
+			    
+			    <input type="text" data-clear-btn="true" name="fname-2" id="uname"  autocomplete="off"  placeholder="Username">
+
+     			<input type="password" data-clear-btn="true" name="password-2" id="pwd" autocomplete="off"  placeholder="Password">
+
+				<label style="position: relative;left: 60%">Forgot password ?</label>
+				
+				<button id="login-btn" type="submit" name="l" style="background-color: rgb(91, 196, 175); border-radius: 50px;">Login</button>
+				
+			</form>
+	</div><!-- /content -->
+
+	<div data-role="footer" data-position="fixed">
+		<center>Don't have an account? <a style="color: rgb(0,0,0)" id="reg">Sign up</a></center>
+	</div><!-- /footer -->
+</div><!-- /page -->
+
+
+		<!-- Registration page -->
+		<div data-role="page" id="registration-page" style="background-image: url(css/image/backim.jpeg)">
+
+			
+
+			<div role="main" class="ui-content" style="margin-top:25%" >
+			<div>
+				<center><label style="font-family: fantasy;font-size: 30px">FindMe</label></center>
+			</div><!-- /header -->
+
+
+			<form  method="post" id="form2" onsubmit="return Register();" action="http://localhost/findMe/registration.php" >
+			    
+			    <input type="text" data-clear-btn="true" name="f" id="fname" value="" autocomplete="off"  placeholder="First Name" >
+
+				
+			    <input type="text" data-clear-btn="true" name="l" id="lname" value="" autocomplete="off"  placeholder="Last Name" >
+
+				
+			    <input type="text" data-clear-btn="true" name="g" id="phone" value="" autocomplete="off"  placeholder="Phone number">
+
+				
+			    <input type="email" data-clear-btn="true" name="e" id="uname" value="" autocomplete="off"  placeholder="Username">
+
+				
+     			<input type="password" data-clear-btn="true" name="p" id="pwd" value="" autocomplete="off"  placeholder="Password">
+
+			
+
+
+			<!--Dialog for next page-->
+			<button id="register-btn" type="submit" name="r" style="background-color: rgb(91, 196, 175);border-radius: 50px;"><a href="#popupLogin" data-rel="popup" data-position-to="window"  data-transition="pop" style="text-decoration:none; color:black;">Next</a></button>
+<div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+    <form>
+        <div style="padding:10px 20px;">
+            <label>Confirm Phone number</label>
+           
+            <input type="text" name="user" id="un" value="" placeholder="Phone number" data-theme="a">
+           
+          
+            <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Confirm</button>
+        </div>
+    </form>
+</div>
+
+			</form>
+				
+			</div><!-- /content -->
+
+			<div data-role="footer" data-position="fixed">
+				<center>Already have an account? <a style="color: rgb(0,0,0)" id="back-btn">Login</a></center>
+			</div><!-- /footer -->
+		</div>
+
+			
+		
+    </body>
+</html>
